@@ -1,0 +1,20 @@
+<!-- TokenDialog.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <label for="token">Enter your API Token:</label>
+    <input type="text" id="token" name="token">
+    <button onclick="setToken()">Save</button>
+
+    <script>
+      function setToken() {
+        const token = document.getElementById('token').value;
+        google.script.run.setUserToken(token);
+        google.script.host.close();
+      }
+    </script>
+  </body>
+</html>
