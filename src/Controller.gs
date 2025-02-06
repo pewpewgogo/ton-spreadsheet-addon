@@ -17,20 +17,26 @@ function getBalanceForAddress(address, ticker) {
  * @returns {*}
  */
 function convertAddress(address, format = 'raw') {
-  const supportedFormats = ['raw', 'bounceable', 'nonbounceable', 'testnet'];
+  const supportedFormats = ['raw', 'bounceable', 'nonbounceable', 'testnet', 'r', 'b', 'u', 't'];
   if (!supportedFormats.includes(format)) {
-    throw new Error('Invalid format');
+    throw new Error('Invalid type. Please use one of r|b|n|t');
   }
 
-  const addr = Address.parse(address);
+  const addr = new Address(address);
   switch (format) {
+    case 'r':
     case 'raw':
-      return addr.toRawString();
+      return addr.toString(false, true, true, false);
     case 'bounceable':
-      return addr.toString({bounceable: true})
+    case 'b':
+      return addr.toString(true, true, true, false);
     case 'nonbounceable':
-      return addr.toString({bounceable: false});
+    case 'u':
+      return addr.toString(true, true, false, false);
     case 'testnet':
-      return addr.toString({testOnly: true});
+    case 't':
+      return addr.toString(true, true, true, true);
+    default:
+      throw new Error('Invalid format or type as a second argument');
   }
 }
