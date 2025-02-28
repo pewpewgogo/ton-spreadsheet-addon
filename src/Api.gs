@@ -1,19 +1,23 @@
 // API.gs
 
-const API_URL = 'https://your-api-endpoint.com';
+const API_URL = 'https://ton-spreadsheet-api-inrid.ondigitalocean.app/api';
 
 function getBalance(address, ticker) {
   const userToken = getUserToken();
-  const url = `https://${API_URL}/balance/${ticker}/${address}`;
+  const url = `${API_URL}/balance`;
   const options = {
+    method: 'POST',
     headers: {
       Authorization: userToken ? `Bearer ${userToken}` : '',
+      'Content-Type': 'application/json'
     },
+    payload: JSON.stringify({ address, ticker })
   };
 
   const response = UrlFetchApp.fetch(url, options);
   const data = JSON.parse(response.getContentText());
-  return data.balance;
+
+  return data['balance'];
 }
 
 function setUserToken(token) {

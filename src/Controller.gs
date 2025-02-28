@@ -8,7 +8,13 @@ function getBalanceForAddress(address, ticker) {
   if (!supportedTickers.includes(ticker)) {
     throw new Error('Invalid ticker');
   }
-  return getCachedBalance(address, ticker);
+  const nano = getCachedBalance(address, ticker);
+
+  if (ticker === 'USDT') {
+    return nano / 1e6;
+  } else {
+    return nano / 1e9;
+  }
 }
 
 /**
